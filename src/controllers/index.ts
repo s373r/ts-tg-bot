@@ -1,2 +1,2 @@
-export { startController as start } from './start.js'
-export { stopController as stop } from './stop.js'
+export { controller as start } from './start.js'
+export { controller as stop } from './stop.js'

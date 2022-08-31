@@ -23,8 +23,8 @@ function setupMiddlewares(bot: Bot, localeEngine: I18n) {
 }
 
 function setupControllers(bot: Bot) {
-	bot.command('start', handlers.start)
-	bot.command('stop', handlers.stop)
+	bot.use(handlers.start)
+	bot.use(handlers.stop)
 }
 
 async function startBot(database: Database) {

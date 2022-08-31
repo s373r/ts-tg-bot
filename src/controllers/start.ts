@@ -1,9 +1,12 @@
-import { Handler } from '../types/index.js'
+import { CustomContext } from '../types/index.js'
 
-const startController: Handler = async ctx => {
+import { Composer } from 'grammy'
+
+const controller = new Composer<CustomContext>()
+controller.command('start', async ctx => {
 	await ctx.text('state.started', {
 		username: ctx.from?.username
 	})
-}
+})
 
-export { startController }
+export { controller }
