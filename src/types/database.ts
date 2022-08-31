@@ -1,15 +1,13 @@
-import { Generated, Kysely } from 'kysely'
+import { ObjectId, Collection } from 'mongodb'
 
-interface WordTable {
-	id: Generated<number>
+interface Word {
+	_id: ObjectId
 	string: string
 	userId: number
 }
 
-interface IDatabase {
-	words: WordTable
+interface Database {
+	words: Collection
 }
 
-type Database = Kysely<IDatabase>
-
-export { Database }
+export { Word, Database }

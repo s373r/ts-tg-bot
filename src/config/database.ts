@@ -1,16 +1,13 @@
 import { Database } from '../types/index.js'
 
-import pg from 'pg'
-import { Kysely, PostgresDialect } from 'kysely'
+import { MongoClient } from 'mongodb'
 
 async function connectToDb() {
-	const pool = new pg.Pool({
-		connectionString: process.env.DB_CONNECTION_STRING
-	})
-	const dialect = new PostgresDialect({ pool })
-	const config = { dialect }
-	const database = new Kysely<Database>(config)
-	await database.connection().execute(async () => {})
+	const client = new MongoClient(process.env.DB_CONNECTION_STRING)
+	await client.connect()
+	const mongoDb = client.db()
+	const words = mongoDb.collection(process.env.DB_NAME)
+	const database: Database = { words }
 	return database
 }
 
