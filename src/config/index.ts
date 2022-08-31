@@ -1,4 +1,3 @@
 export { initLocaleEngine } from './locale-engine.js'
-export { initBot } from './bot.js'
-export { initApp } from './app.js'
-export { configEnv } from './env.js'
+export { startBot } from './bot.js'
+export { startApp } from './app.js'

@@ -26,14 +26,14 @@ function setupControllers(bot: Bot) {
 	bot.command('stop', handlers.stop)
 }
 
-function initBot() {
+async function startBot() {
 	const localesPath = resolvePath(import.meta.url, '../locales')
 	const i18n = initLocaleEngine(localesPath)
 	const bot = new TelegramBot<CustomContext>(process.env.TOKEN)
 	extendContext(bot)
 	setupMiddlewares(bot, i18n)
 	setupControllers(bot)
-	return () => bot.start()
+	return await bot.start()
 }
 
-export { initBot }
+export { startBot }

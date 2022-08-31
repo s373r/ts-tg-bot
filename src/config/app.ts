@@ -1,14 +1,21 @@
-import { initBot, configEnv } from './index.js'
+import { startBot } from './index.js'
+import { loadEnv, validateEnv } from '../helpers/index.js'
 
-function initApp() {
+async function startApp() {
 	try {
-		configEnv()
+		loadEnv()
+		validateEnv()
 	} catch (error) {
 		console.error(`Error occurred while loading environment:`, error)
 		process.exit(1)
 	}
-	const startBot = initBot()
-	startBot()
+
+	try {
+		await startBot()
+	} catch (error) {
+		console.error(`Error occurred while starting bot:`, error)
+		process.exit(2)
+	}
 }
 
-export { initApp }
+export { startApp }
