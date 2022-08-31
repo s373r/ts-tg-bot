@@ -1,3 +1,3 @@
-import { initApp } from './config/index.js'
+import { startApp } from './config/index.js'
 
-initApp()
+startApp()

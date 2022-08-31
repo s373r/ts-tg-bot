@@ -1,14 +1,29 @@
-import { initBot, configEnv } from './index.js'
+import { startBot, connectToDb } from './index.js'
+import { loadEnv, validateEnv } from '../helpers/index.js'
 
-function initApp() {
+async function startApp() {
 	try {
-		configEnv()
+		loadEnv()
+		validateEnv()
 	} catch (error) {
 		console.error(`Error occurred while loading environment:`, error)
 		process.exit(1)
 	}
-	const startBot = initBot()
-	startBot()
+
+	let database
+	try {
+		database = await connectToDb()
+	} catch (error) {
+		console.error(`Error occurred while connecting to the database:`, error)
+		process.exit(2)
+	}
+
+	try {
+		await startBot(database)
+	} catch (error) {
+		console.error(`Error occurred while starting the bot:`, error)
+		process.exit(3)
+	}
 }
 
-export { initApp }
+export { startApp }
