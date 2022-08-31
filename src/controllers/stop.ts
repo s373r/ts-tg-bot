@@ -1,7 +1,7 @@
 import { Handler } from '../types/index.js'
 
-const stopController: Handler = ctx => {
-	ctx.text('state.stopped', {
+const stopController: Handler = async ctx => {
+	await ctx.text('state.stopped', {
 		username: ctx.from?.username
 	})
 }
