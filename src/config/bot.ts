@@ -1,4 +1,4 @@
-import { Bot, CustomContext } from '../types/index.js'
+import { Bot, CustomContext, Database } from '../types/index.js'
 import { I18n } from '@grammyjs/i18n'
 
 import { Bot as TelegramBot, session } from 'grammy'
@@ -9,9 +9,10 @@ import { initLocaleEngine } from './index.js'
 import * as handlers from '../controllers/index.js'
 import { createReplyWithTextFunc } from '../services/index.js'
 
-function extendContext(bot: Bot) {
+function extendContext(bot: Bot, database: Database) {
 	bot.use(async (ctx, next) => {
 		ctx.text = createReplyWithTextFunc(ctx)
+		ctx.db = database
 		await next()
 	})
 }
@@ -26,14 +27,14 @@ function setupControllers(bot: Bot) {
 	bot.command('stop', handlers.stop)
 }
 
-function initBot() {
+async function startBot(database: Database) {
 	const localesPath = resolvePath(import.meta.url, '../locales')
 	const i18n = initLocaleEngine(localesPath)
 	const bot = new TelegramBot<CustomContext>(process.env.TOKEN)
-	extendContext(bot)
+	extendContext(bot, database)
 	setupMiddlewares(bot, i18n)
 	setupControllers(bot)
-	return () => bot.start()
+	await bot.start()
 }
 
-export { initBot }
+export { startBot }

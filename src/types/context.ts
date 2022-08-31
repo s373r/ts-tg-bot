@@ -1,15 +1,20 @@
-import { Extra } from './index.js'
+import { Extra, Database } from './index.js'
 import { Context, SessionFlavor } from 'grammy'
 import { I18nContextFlavor, TemplateData } from '@grammyjs/i18n'
 
-interface CustomMethods<C extends Context> {
-	text: (text: string, templateData?: TemplateData, extra?: Extra) => ReturnType<C['reply']>
+interface Custom<C extends Context> {
+	text: (
+		text: string,
+		templateData?: TemplateData,
+		extra?: Extra
+	) => ReturnType<C['reply']>
+	db: Database
 }
 
-type CustomContextMethods = CustomMethods<Context>
+type CustomContextMethods = Custom<Context>
 
 type CustomContext = Context &
-	CustomMethods<Context> &
+	Custom<Context> &
 	I18nContextFlavor &
 	SessionFlavor<{}>
 
